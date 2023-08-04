@@ -3,5 +3,139 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
+    "cidades-estado": {
+      "projectType": "library",
+      "root": "projects/cidades-estado",
+      "sourceRoot": "projects/cidades-estado/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/cidades-estado/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/cidades-estado/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/cidades-estado/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/cidades-estado/src/test.ts",
+            "tsConfig": "projects/cidades-estado/tsconfig.spec.json",
+            "karmaConfig": "projects/cidades-estado/karma.conf.js"
+          }
+        }
+      }
+    },
+    "cidades-estado-demo": {
+      "projectType": "application",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        }
+      },
+      "root": "projects/cidades-estado-demo",
+      "sourceRoot": "projects/cidades-estado-demo/src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/cidades-estado-demo",
+            "index": "projects/cidades-estado-demo/src/index.html",
+            "main": "projects/cidades-estado-demo/src/main.ts",
+            "polyfills": "projects/cidades-estado-demo/src/polyfills.ts",
+            "tsConfig": "projects/cidades-estado-demo/tsconfig.app.json",
+            "inlineStyleLanguage": "scss",
+            "assets": [
+              "projects/cidades-estado-demo/src/favicon.ico",
+              "projects/cidades-estado-demo/src/assets"
+            ],
+            "styles": [
+              "projects/cidades-estado-demo/src/styles.scss"
+            ],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kb",
+                  "maximumError": "1mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "2kb",
+                  "maximumError": "4kb"
+                }
+              ],
+              "fileReplacements": [
+                {
+                  "replace": "projects/cidades-estado-demo/src/environments/environment.ts",
+                  "with": "projects/cidades-estado-demo/src/environments/environment.prod.ts"
+                }
+              ],
+              "outputHashing": "all"
+            },
+            "development": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "configurations": {
+            "production": {
+              "browserTarget": "cidades-estado-demo:build:production"
+            },
+            "development": {
+              "browserTarget": "cidades-estado-demo:build:development"
+            }
+          },
+          "defaultConfiguration": "development"
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "cidades-estado-demo:build"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/cidades-estado-demo/src/test.ts",
+            "polyfills": "projects/cidades-estado-demo/src/polyfills.ts",
+            "tsConfig": "projects/cidades-estado-demo/tsconfig.spec.json",
+            "karmaConfig": "projects/cidades-estado-demo/karma.conf.js",
+            "inlineStyleLanguage": "scss",
+            "assets": [
+              "projects/cidades-estado-demo/src/favicon.ico",
+              "projects/cidades-estado-demo/src/assets"
+            ],
+            "styles": [
+              "projects/cidades-estado-demo/src/styles.scss"
+            ],
+            "scripts": []
+          }
+        }
+      }
+    }
+  },
+  "cli": {
+    "analytics": false
   }
 }
