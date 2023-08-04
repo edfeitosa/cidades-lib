@@ -1,10 +1,36 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { CidadesEstadoService } from 'cidades-estado';
+// import { CidadesEstadoService } from '../../../cidades-estado/src/lib/cidades-estado.service';
+import { take } from 'rxjs/operators';
 
 interface IEstado {
   ID: string;
   Sigla: string;
   Nome: string;
+}
+
+interface ICidade {
+  id: number;
+  nome: string,
+  microrregiao: {
+    id: number;
+    nome: string;
+    mesorregiao: {
+      id: number;
+      nome: string;
+      UF: {
+        id: number;
+        sigla: string;
+        nome: string;
+        regiao: {
+          id: number;
+          sigla: string;
+          nome: string;
+        }
+      }
+    }
+  }
 }
 
 @Component({
@@ -46,8 +72,12 @@ export class AppComponent {
   ];
 
   formEstados!: FormGroup;
+  cidades!: ICidade[];
 
-  constructor(private _formBuilder: FormBuilder) {
+  constructor(
+    private _formBuilder: FormBuilder,
+    private _cidades: CidadesEstadoService
+  ) {
     this._criaFrom();
     this._aoMudarSelect();
   }
@@ -61,7 +91,15 @@ export class AppComponent {
   private _aoMudarSelect(): void {
     this.formEstados.get('estados')?.valueChanges
       .subscribe(valor => {
-        console.log(valor);
+        this._listaCidades(valor);
+      })
+  }
+
+  private _listaCidades(estado: string): void {
+    this._cidades.listaCidades(estado)
+      .pipe(take(1))
+      .subscribe((cidades: ICidade[]) => {
+        this.cidades = cidades;
       })
   }
 

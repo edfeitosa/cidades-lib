@@ -4,8 +4,12 @@
 
 <form [formGroup]="formEstados">
   <select formControlName="estados">
-    <option *ngFor="let estado of estados" [value]="estado.ID">
+    <option *ngFor="let estado of estados" [value]="estado.Sigla">
       {{ estado.Nome }} - {{ estado.Sigla }}
     </option>
   </select>
 </form>
+
+<ul>
+  <li *ngFor="let cidade of cidades">{{ cidade.nome }}</li>
+</ul>
